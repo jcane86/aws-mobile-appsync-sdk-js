@@ -214,7 +214,6 @@ const effect = async <TCache extends NormalizedCacheObject>(
             client.initQueryManager();
         }
 
-        const buildOperationForLink: Function = (client.queryManager as any).buildOperationForLink;
         const extraContext = {
             AASContext: {
                 doIt
@@ -222,10 +221,11 @@ const effect = async <TCache extends NormalizedCacheObject>(
             ...context,
             optimisticResponse
         };
-        const operation = buildOperationForLink.call(client.queryManager, mutation, variables, extraContext);
 
-        logger('Executing link', operation);
-        execute(client.link, operation).subscribe({
+    logger('Executing link');
+    client.queryManager
+      .getObservableFromLink(mutation, extraContext, variables, false)
+      .subscribe({
             next: data => {
                 boundSaveServerId(store, optimisticResponse, data.data);
 

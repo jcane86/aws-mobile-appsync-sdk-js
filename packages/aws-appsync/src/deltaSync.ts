@@ -706,7 +706,7 @@ const deltaRecordsProcessor = <T = { [key: string]: any }>(
 
 const updateBaseWithDelta = <T = { [key: string]: any }, TVariables = OperationVariables>(
     logger,
-    baseQuery: BuildBaseQuerySyncOptions<TVariables>,
+    baseQuery: BuildBaseQuerySyncOptions<T, TVariables>,
     otherQuery: BuildQuerySyncOptions<TVariables>,
     cache: DataProxy,
     data: T,
