@@ -214,7 +214,6 @@ const effect = async <TCache extends NormalizedCacheObject>(
             client.initQueryManager();
         }
 
-        const buildOperationForLink: Function = (client.queryManager as any).buildOperationForLink;
         const extraContext = {
             AASContext: {
                 doIt
@@ -222,10 +221,11 @@ const effect = async <TCache extends NormalizedCacheObject>(
             ...context,
             optimisticResponse
         };
-        const operation = buildOperationForLink.call(client.queryManager, mutation, variables, extraContext);
 
-        logger('Executing link', operation);
-        execute(client.link, operation).subscribe({
+    logger('Executing link');
+    client.queryManager
+      .getObservableFromLink(mutation, extraContext, variables, false)
+      .subscribe({
             next: data => {
                 boundSaveServerId(store, optimisticResponse, data.data);
 
@@ -296,12 +296,12 @@ const effect = async <TCache extends NormalizedCacheObject>(
                     observer.next({ ...data, [IS_OPTIMISTIC_KEY]: false });
                     observer.complete();
                 } else {
-                    // throw new Error('Manually interact with cache');
+                    // throw new Error('Manually interact with cache'); 
                 }
 
                 if (typeof callback === 'function') {
                     const mutationName = getOperationFieldName(mutation);
-                    const { additionalDataContext: { newVars = operation.variables } = {}, ...restContext } = data.context || {};
+                    const { additionalDataContext: { newVars = variables } = {}, ...restContext } = data.context || {};
 
                     if (!Object.keys(restContext || {}).length) {
                         delete data.context;
