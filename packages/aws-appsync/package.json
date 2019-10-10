@@ -1,6 +1,6 @@
 {
   "name": "aws-appsync",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "main": "lib/index.js",
   "license": "Apache-2.0",
   "description": "AWS Mobile AppSync SDK for JavaScript",
@@ -14,7 +14,7 @@
     "url": "https://github.com/awslabs/aws-mobile-appsync-sdk-js.git"
   },
   "scripts": {
-    "prepare": "tsc && cp -r src/vendor lib/vendor",
+    "prepare": "tsc --build ./tsconfig.json && cp -r src/vendor lib/vendor",
     "test": "jest --coverage --coverageReporters=text",
     "test-watch": "jest --watch"
   },
