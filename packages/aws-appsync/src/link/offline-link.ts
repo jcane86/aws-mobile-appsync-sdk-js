@@ -223,8 +223,7 @@ const effect = async <TCache extends NormalizedCacheObject>(
         };
 
     logger('Executing link');
-    client.queryManager
-      .getObservableFromLink(mutation, extraContext, variables, false)
+    client.queryManager['getObservableFromLink'](mutation, extraContext, variables, false)
       .subscribe({
             next: data => {
                 boundSaveServerId(store, optimisticResponse, data.data);
