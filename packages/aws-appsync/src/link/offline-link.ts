@@ -51,17 +51,17 @@ export class OfflineLink extends ApolloLink {
             const { operation: operationType } = getOperationDefinition(operation.query);
             const isMutation = operationType === 'mutation';
             const isQuery = operationType === 'query';
-
+            
             if (!online && isQuery) {
                 const data = processOfflineQuery(operation, this.store);
-
+                
                 observer.next({ data });
                 observer.complete();
-
+                
                 return () => null;
             }
-
-            if (isMutation) {
+            
+            if (isMutation && operation.getContext().enqueueOffline) {
                 const { AASContext: { doIt = false } = {}, cache } = operation.getContext();
 
                 if (!doIt) {
