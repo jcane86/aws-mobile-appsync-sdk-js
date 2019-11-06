@@ -61,7 +61,7 @@ export class OfflineLink extends ApolloLink {
                 return () => null;
             }
             
-            if (isMutation && operation.getContext().enqueueOffline) {
+            if (isMutation) {
                 const { AASContext: { doIt = false } = {}, cache } = operation.getContext();
 
                 if (!doIt) {
