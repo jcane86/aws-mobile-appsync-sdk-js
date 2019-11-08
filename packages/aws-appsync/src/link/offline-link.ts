@@ -527,9 +527,9 @@ export const getIds = (dataIdFromObject, obj, path = '', acc = {}) => {
         if (dataId) {
             const [, , id = null] = dataId.match(/(.+:)?(.+)/) || [];
 
-            if (isUuid(dataId)) {
+            // if (isUuid(dataId)) {
                 acc[path] = id;
-            }
+            // }
         }
 
         Object.keys(obj).forEach(key => {
